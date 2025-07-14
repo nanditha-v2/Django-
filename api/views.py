@@ -6,7 +6,9 @@ from .serializer import UserSerializer
 
 @api_view(['GET'])
 def get_user(request):
-    return Response(UserSerializer({'name': "pedro", 'age': 23 }).data)
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def CREATE_user(request):
@@ -40,5 +42,6 @@ def user_detail(request, pk):
           user.delete()
           return Response(status=status.HTTP_204_NO_CONTENT)
                          
+     
 
     
