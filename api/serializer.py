@@ -1,21 +1,24 @@
 from rest_framework import serializers
-from .models import User, UserProfile
+from .models import User, UserProfile, Task
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['phone', 'address', 'birth_date']
+        fields = ['user', 'phone', 'address', 'birth_date']
+
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    class meta:
+        model=Task
+        fields= '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
-
+    tasks = TaskSerializer(many=True, read_only=True)
+   
     class Meta:
         model = User
         fields = ['id', 'age', 'name', 'profile']
-
-    def create(self, validated_data):
-        profile_data = validated_data.pop('profile', None)
-        user = User.objects.create(**validated_data)
-        if profile_data:
-            UserProfile.objects.create(user=user, **profile_data)
-        return user
+    
