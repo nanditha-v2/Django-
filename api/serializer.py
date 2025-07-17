@@ -16,9 +16,9 @@ class TaskSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
-    tasks = TaskSerializer(many=True, read_only=True)
+    tasks = TaskSerializer( many=True, read_only=True)
    
     class Meta:
         model = User
-        fields = ['id', 'age', 'name', 'profile']
+        fields = ['id', 'age', 'name', 'profile', 'tasks']
     
